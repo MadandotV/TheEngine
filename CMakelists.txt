@@ -1,0 +1,19 @@
+# Set the minimum CMake version required
+cmake_minimum_required(VERSION 3.10)
+
+# Set the project name
+project(TheEngine)
+set(CMAKE_CXX_STANDARD 17)
+
+# Add the include directory
+include_directories(include)
+
+# Add source files
+add_executable(chess_engine
+    src/board.cpp
+    src/movegen.cpp
+    src/evaluate.cpp
+    src/search.cpp
+    src/ui.cpp
+    src/main.cpp
+)
