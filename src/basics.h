@@ -1,5 +1,5 @@
 #ifndef BASICS_H_INCLUDED // terminates inclusion if already included to remover
-                        // redundant running
+                          // redundant running
 #define BASICS_H_INCLUDED // defines the include if not already included
 
 #include <algorithm> //gives access to many algos like sort and stuff
@@ -65,8 +65,9 @@ enum MoveType {
   CASTLING = 3 << 14
 };
 
-enum Color { WHITE, BLACK, NO_COLOR };
+enum Color { WHITE, BLACK, NO_COLOR,COLOR_NB=2 };
 
+// Castling Rights is of 4-bits and checks whether there is a possible castling opportunity
 enum CastlingRights {
   NO_Castling,
   WHITE_OO = 1,
@@ -143,8 +144,8 @@ enum Rank : int {
   inline T &operator--(T &d) { return d = T(int(d) - 1); }
 
 #define ENABLE_FULL_OPERATORS_ON(T)                                            \
-  ENABLE_BASE_OPERATORS_ON(T)                                           \
-  ENABLE_INCR_OPERATORS_ON(T)                                           \
+  ENABLE_BASE_OPERATORS_ON(T)                                                  \
+  ENABLE_INCR_OPERATORS_ON(T)                                                  \
   constexpr T operator*(int i, T d) { return T(i * int(d)); }                  \
   constexpr T operator*(T d, int i) { return T(int(d) * i); }                  \
   constexpr T operator/(T d, int i) { return T(int(d) / i); }                  \
@@ -209,15 +210,15 @@ constexpr Square from_sq(Move move) { return Square((move >> 6) & 0x3f); }
 constexpr Square to_sq(Move move) { return Square(move & 0x3f); }
 constexpr int from_to(Move move) { return move & 0xfff; }
 constexpr MoveType return_type(Move move) { return MoveType((move >> 14) & 3); }
-constexpr PieceType return_promotion_type(Move move) { return PieceType(((move >>12) & 3) + KNIGHT) ; }
-constexpr Move make_move(Square from , Square to) {
-    return Move ((from<<6)+to);
+constexpr PieceType return_promotion_type(Move move) {
+  return PieceType(((move >> 12) & 3) + KNIGHT);
 }
-constexpr Move reverse_move(Square from , Square to) {
-    return Move ((to<<6)+from);
+constexpr Move make_move(Square from, Square to) {
+  return Move((from << 6) + to);
 }
-constexpr bool move_ok(Move move) {
-    return from_sq(move) != to_sq(move);
+constexpr Move reverse_move(Square from, Square to) {
+  return Move((to << 6) + from);
 }
+constexpr bool move_ok(Move move) { return from_sq(move) != to_sq(move); }
 
 #endif
